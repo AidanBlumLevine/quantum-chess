@@ -6,7 +6,7 @@
   "scripts": {
     "watch": "webpack --watch --mode development",
     "serve": "nodemon server.js",
-    "dev": "npm-run-all --parallel watch serve"
+    "start": "npm-run-all --parallel watch serve"
   },
   "author": "",
   "license": "ISC",
