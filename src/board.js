@@ -62,76 +62,60 @@ module.exports = class Board {
 
     evalulate() {
         var Battacking = false, Wattacking = false;
-        for (var moveW of this.moves) {
-            if (moveW.color == "black" || moveW.premove)
-                continue;
-            if (this.pieces.filter(p => p.pos.x == moveW.x && p.pos.y == moveW.y).length > 0) {
+        var wMoves = this.moves.filter(m => m.color == "white");
+        var bMoves = this.moves.filter(m => m.color == "black");
+
+        for (var moveW of wMoves)
+            if (!moveW.premove && this.pieces.filter(p => p.pos.x == moveW.x && p.pos.y == moveW.y).length > 0)
                 Wattacking = true;
-            }
-        }
-        for (var moveB of this.moves) {
-            if (moveB.color == "white" || moveW.premove)
-                continue;
-            var bAttack = this.pieces.filter(p => p.pos.x == moveB.x && p.pos.y == moveB.y)[0];
-            if (this.pieces.filter(p => p.pos.x == moveB.x && p.pos.y == moveB.y).length > 0) {
+
+        for (var moveB of bMoves)
+            if (!moveB.premove && this.pieces.filter(p => p.pos.x == moveB.x && p.pos.y == moveB.y).length > 0)
                 Battacking = true;
-            }
-        }
 
-
-        for (var moveW of this.moves) {
-            if (moveW.color == "black")
-                continue;
-
-            for (var moveB of this.moves) {
-                if (moveB.color == "white")
-                    continue;
-
+        for (var moveW of wMoves) {
+            for (var moveB of bMoves) {
                 var pieceB = this.pieces.filter(p => p.pos.x == moveB.start.x && p.pos.y == moveB.start.y)[0];
                 var pieceW = this.pieces.filter(p => p.pos.x == moveW.start.x && p.pos.y == moveW.start.y)[0];
 
-                var wAttack;
-                if (!moveW.premove) {
+                var wAttack = undefined;
+                if (!moveW.premove) 
                     wAttack = this.pieces.filter(p => p.pos.x == moveW.x && p.pos.y == moveW.y)[0];
-                }
-                var bAttack;
-                if (!moveB.premove) {
+                
+                var bAttack = undefined;
+                if (!moveB.premove) 
                     bAttack = this.pieces.filter(p => p.pos.x == moveB.x && p.pos.y == moveB.y)[0];
-                }
-                if (!Battacking && moveB.premove) {
-                    if (!moveW.premove && wAttack !== undefined) {
-                        if (moveB.premove && moveB.x == moveW.x && moveB.y == moveW.y) {
-                            wAttack.kill();
-                            pieceW.kill();
-                            pieceB.pos = {
-                                x: moveB.x,
-                                y: moveB.y
-                            };
-                            return;
-                        }
+                
+                //Black is not attacking, this is black's premove, and white is attaching a piece 
+                if (!Battacking && moveB.premove && wAttack !== undefined) {
+                    //Black's premove is to where white is attacking
+                    if (moveB.premove && moveB.x == moveW.x && moveB.y == moveW.y) {
+                        wAttack.kill();
+                        pieceW.kill();
+                        pieceB.pos = {
+                            x: moveB.x,
+                            y: moveB.y
+                        };
+                        return;
                     }
                 }
-                if (!Wattacking && moveW.premove) {
-                    if (!moveB.premove && bAttack !== undefined) {
-                        if (moveW.premove && moveW.x == moveB.x && moveW.y == moveB.y) {
-                            bAttack.kill();
-                            pieceB.kill();
-                            pieceW.pos = {
-                                x: moveW.x,
-                                y: moveW.y
-                            };
-                            return;
-                        }
+                if (!Wattacking && moveW.premove && bAttack !== undefined) {
+                    if (moveW.premove && moveW.x == moveB.x && moveW.y == moveB.y) {
+                        bAttack.kill();
+                        pieceB.kill();
+                        pieceW.pos = {
+                            x: moveW.x,
+                            y: moveW.y
+                        };
+                        return;
                     }
                 }
             }
         }
-        for (var moveW of this.moves) {
-            if (moveW.color == "black")
-                continue;
-
-            for (var moveB of this.moves) {
-                if (moveB.color == "white" || moveW.premove || moveB.premove)
+        
+        for (var moveW of wMoves) {
+            for (var moveB of bMoves) {
+                if (moveW.premove || moveB.premove)
                     continue;
 
                 var pieceB = this.pieces.filter(p => p.pos.x == moveB.start.x && p.pos.y == moveB.start.y)[0];
@@ -279,6 +263,12 @@ module.exports = class Board {
                 if (move.x == hover.x && move.y == hover.y) {
                     move.start = this.dragging.pos;
                     move.color = this.dragging.color;
+                    this.moves = this.moves.filter(m => !(m.start.x == move.x && m.start.y == move.y));
+                    this.moves = this.moves.filter(m => !(m.x == move.start.x && m.y == move.start.y));
+                    for (var piece of this.pieces) {
+                        if (piece.move !== undefined && !this.moves.includes(piece.move))
+                            piece.move = undefined;
+                    }
                     this.moves.push(move);
                     this.dragging.move = move;
                 }
