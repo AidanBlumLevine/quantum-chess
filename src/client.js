@@ -3,6 +3,7 @@ import Board from './board.js';
 
 var socket = io();
 window.boringChess = true;
+
 $(function () {
     var board;
     var canvas = $('canvas')[0];
@@ -24,6 +25,7 @@ $(function () {
         $('#id').text(data.id);
         $('#new').hide();
         $('#input').hide();
+        $('#lockin').show();
     });
     socket.on('bad-room', function () {
         alert('Bad code');

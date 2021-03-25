@@ -1,12 +1,17 @@
-<input type="text" id="input">
-<button id="lockin">Lock In</button>
-<button id="new">New Game</button>
-<span id="id"></span>
-<br>
-<canvas width="500" height="500"></canvas>
-<p></p>
-<p></p>
-<p></p>
-<link rel="stylesheet" href="style.css">
+<head>
+    <link rel="stylesheet" href="style.css">
+</head>
+<div class="header">
+    <strong class="mr-auto">QUANTUM CHESS</strong>
+    <input type="text" id="input" placeholder="game code">
+    <button id="new">New Game</button>
+    <span id="id"></span>
+</div>
+<div class="center">
+    <canvas width="700" height="700" ></canvas>
+</div>
+<div class="center">
+    <button id="lockin" style="display: none;">Lock In</button>
+</div>
 <script src="/socket.io/socket.io.js"></script>
 <script src="pack.js"></script>
