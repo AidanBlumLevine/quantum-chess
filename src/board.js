@@ -3,6 +3,7 @@ module.exports = class Board {
     constructor(canvas) {
         this.moves = [];
         this.layoutBoard();
+        this.locked = false;
         if (canvas === undefined) {
             this.client = false;
         } else {
@@ -133,6 +134,9 @@ module.exports = class Board {
                 if (moveB.color == "white" || moveW.premove || moveB.premove)
                     continue;
 
+                var pieceB = this.pieces.filter(p => p.pos.x == moveB.start.x && p.pos.y == moveB.start.y)[0];
+                var pieceW = this.pieces.filter(p => p.pos.x == moveW.start.x && p.pos.y == moveW.start.y)[0];
+
                 if (moveB.x == moveW.x && moveB.y == moveW.y) {
                     pieceB.kill();
                     pieceW.kill();
@@ -196,6 +200,7 @@ module.exports = class Board {
             this.pieces[i].move = undefined;
         }
         this.moves = [];
+        this.locked = false;
     }
 
     drawChessBoard() {
@@ -216,10 +221,11 @@ module.exports = class Board {
                 this.ctx.fillRect(move.x * this.tile, move.y * this.tile, this.tile, this.tile);
             }
         }
-        this.ctx.globalAlpha = .75;
         for (var move of this.moves) {
             this.ctx.strokeStyle = move.premove ? "red" : "green";
+            this.ctx.globalAlpha = .75;
             this.ctx.strokeRect(move.x * this.tile + 6, move.y * this.tile + 6, this.tile - 12, this.tile - 12);
+            this.ctx.globalAlpha = .4;
             this.ctx.strokeRect(move.start.x * this.tile + 6, move.start.y * this.tile + 6, this.tile - 12, this.tile - 12);
         }
         this.ctx.globalAlpha = 1;
@@ -247,6 +253,8 @@ module.exports = class Board {
     }
 
     onMouseDown(e) {
+        if (this.locked)
+            return;
         this.dragging = this.getPiece(this.getTile(e));
         if (this.dragging != undefined && this.dragging.color == this.playerColor) {
             this.moves = this.moves.filter(m => m !== this.dragging.move);

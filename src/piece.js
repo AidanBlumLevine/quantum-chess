@@ -9,38 +9,71 @@ module.exports = class Piece {
     }
 
     draw(ctx, tile) {
-        ctx.font = tile * .7 + 'px serif'
+        ctx.font = tile * .7 + 'px serif';
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
-
-        if (this.color == "black") {
-            var text = '❌';
-            if (this.name == "pawn")
-                text = '🦈';
-            if (this.name == "rook")
-                text = '🐧';
-            if (this.name == "bishop")
-                text = '🐬';
-            if (this.name == "knight")
-                text = '🐡';
-            if (this.name == "king")
-                text = '🐠';
-            if (this.name == "queen")
-                text = '🐳';
+        if (window.boringChess) {
+            ctx.fillStyle = "#354525";
+            ctx.font = tile * .9 + 'px serif';
+            if (this.color == "black") {
+                var text = '❌';
+                if (this.name == "pawn")
+                    text = '♟';
+                if (this.name == "rook")
+                    text = '♜';
+                if (this.name == "bishop")
+                    text = '♝';
+                if (this.name == "knight")
+                    text = '♞';
+                if (this.name == "king")
+                    text = '♚';
+                if (this.name == "queen")
+                    text = '♛';
+            } else {
+                if (this.name == "pawn")
+                    text = '♙';
+                if (this.name == "rook")
+                    text = '♖';
+                if (this.name == "bishop")
+                    text = '♗';
+                if (this.name == "knight")
+                    text = '♘';
+                if (this.name == "king")
+                    text = '♔';
+                if (this.name == "queen")
+                    text = '♕';
+            }
         } else {
-            if (this.name == "pawn")
-                text = '🦀';
-            if (this.name == "rook")
-                text = '🐚';
-            if (this.name == "bishop")
-                text = '🦑';
-            if (this.name == "knight")
-                text = '🦐';
-            if (this.name == "king")
-                text = '🐙';
-            if (this.name == "queen")
-                text = '🦞';
+            if (this.color == "black") {
+                var text = '❌';
+                if (this.name == "pawn")
+                    text = '🦈';
+                if (this.name == "rook")
+                    text = '🐧';
+                if (this.name == "bishop")
+                    text = '🐬';
+                if (this.name == "knight")
+                    text = '🐡';
+                if (this.name == "king")
+                    text = '🐠';
+                if (this.name == "queen")
+                    text = '🐳';
+            } else {
+                if (this.name == "pawn")
+                    text = '🦀';
+                if (this.name == "rook")
+                    text = '🐚';
+                if (this.name == "bishop")
+                    text = '🦑';
+                if (this.name == "knight")
+                    text = '🦐';
+                if (this.name == "king")
+                    text = '🐙';
+                if (this.name == "queen")
+                    text = '🦞';
+            }
         }
+
         if (this.dead) {
             var text = '❌';
         }
