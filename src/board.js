@@ -61,6 +61,24 @@ module.exports = class Board {
     }
 
     evalulate() {
+        for (var move of this.moves) {
+            if (move.blockedBy !== undefined) {
+                var blockingMove = this.moves.filter(m => m.start.x == move.blockedBy.x && m.start.y == move.blockedBy.y && !m.premove)[0];
+                if (blockingMove !== undefined && (blockingMove.x != move.start.x || blockingMove.y != move.start.y)) {
+                    move.blockedBy = undefined;
+                } else {
+                    if (move.premove) {
+                        move.delete = true;
+                        continue;
+                    }
+                    move.x = move.blockedBy.x;
+                    move.y = move.blockedBy.y;
+                    move.blockedBy = undefined;
+                }
+            }
+        }
+        this.moves = this.moves.filter(m => m.delete === undefined);
+
         var Battacking = false, Wattacking = false;
         var wMoves = this.moves.filter(m => m.color == "white");
         var bMoves = this.moves.filter(m => m.color == "black");
@@ -79,13 +97,13 @@ module.exports = class Board {
                 var pieceW = this.pieces.filter(p => p.pos.x == moveW.start.x && p.pos.y == moveW.start.y)[0];
 
                 var wAttack = undefined;
-                if (!moveW.premove) 
+                if (!moveW.premove)
                     wAttack = this.pieces.filter(p => p.pos.x == moveW.x && p.pos.y == moveW.y)[0];
-                
+
                 var bAttack = undefined;
-                if (!moveB.premove) 
+                if (!moveB.premove)
                     bAttack = this.pieces.filter(p => p.pos.x == moveB.x && p.pos.y == moveB.y)[0];
-                
+
                 //Black is not attacking, this is black's premove, and white is attaching a piece 
                 if (!Battacking && moveB.premove && wAttack !== undefined) {
                     //Black's premove is to where white is attacking
@@ -112,7 +130,7 @@ module.exports = class Board {
                 }
             }
         }
-        
+
         for (var moveW of wMoves) {
             for (var moveB of bMoves) {
                 if (moveW.premove || moveB.premove)

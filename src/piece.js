@@ -112,45 +112,103 @@ module.exports = class Piece {
                 moves.push({ x: this.pos.x, y: this.pos.y + dist });
                 dist++;
             }
-            if (board.contains(otherColor, { x: this.pos.x, y: this.pos.y + dist })) {
-                moves.push({ x: this.pos.x, y: this.pos.y + dist });
-            }
             if (board.contains(this.color, { x: this.pos.x, y: this.pos.y + dist })) {
                 moves.push({ x: this.pos.x, y: this.pos.y + dist, premove: true });
             }
+            if (board.contains(otherColor, { x: this.pos.x, y: this.pos.y + dist })) {
+                moves.push({ x: this.pos.x, y: this.pos.y + dist });
+
+                var blocker = { x: this.pos.x, y: this.pos.y + dist };
+                dist++;
+                while (board.open({ x: this.pos.x, y: this.pos.y + dist })) {
+                    moves.push({ x: this.pos.x, y: this.pos.y + dist, blockedBy: blocker });
+                    dist++;
+                }
+                if (board.contains(otherColor, { x: this.pos.x, y: this.pos.y + dist })) {
+                    moves.push({ x: this.pos.x, y: this.pos.y + dist, blockedBy: blocker });
+                }
+                if (board.contains(this.color, { x: this.pos.x, y: this.pos.y + dist })) {
+                    moves.push({ x: this.pos.x, y: this.pos.y + dist, premove: true, blockedBy: blocker });
+                }
+            }
+
             dist = 1;
             while (board.open({ x: this.pos.x, y: this.pos.y - dist })) {
                 moves.push({ x: this.pos.x, y: this.pos.y - dist });
                 dist++;
             }
-            if (board.contains(otherColor, { x: this.pos.x, y: this.pos.y - dist })) {
-                moves.push({ x: this.pos.x, y: this.pos.y - dist });
-            }
             if (board.contains(this.color, { x: this.pos.x, y: this.pos.y - dist })) {
                 moves.push({ x: this.pos.x, y: this.pos.y - dist, premove: true });
             }
+            if (board.contains(otherColor, { x: this.pos.x, y: this.pos.y - dist })) {
+                moves.push({ x: this.pos.x, y: this.pos.y - dist });
+
+                var blocker = { x: this.pos.x, y: this.pos.y - dist };
+                dist++;
+                while (board.open({ x: this.pos.x, y: this.pos.y - dist })) {
+                    moves.push({ x: this.pos.x, y: this.pos.y - dist, blockedBy: blocker });
+                    dist++;
+                }
+                if (board.contains(otherColor, { x: this.pos.x, y: this.pos.y - dist })) {
+                    moves.push({ x: this.pos.x, y: this.pos.y - dist, blockedBy: blocker });
+                }
+                if (board.contains(this.color, { x: this.pos.x, y: this.pos.y - dist })) {
+                    moves.push({ x: this.pos.x, y: this.pos.y - dist, premove: true, blockedBy: blocker });
+                }
+            }
+
+
             dist = 1;
             while (board.open({ x: this.pos.x + dist, y: this.pos.y })) {
                 moves.push({ x: this.pos.x + dist, y: this.pos.y });
                 dist++;
             }
-            if (board.contains(otherColor, { x: this.pos.x + dist, y: this.pos.y })) {
-                moves.push({ x: this.pos.x + dist, y: this.pos.y });
-            }
             if (board.contains(this.color, { x: this.pos.x + dist, y: this.pos.y })) {
                 moves.push({ x: this.pos.x + dist, y: this.pos.y, premove: true });
             }
+            if (board.contains(otherColor, { x: this.pos.x + dist, y: this.pos.y })) {
+                moves.push({ x: this.pos.x + dist, y: this.pos.y });
+
+                var blocker = { x: this.pos.x + dist, y: this.pos.y };
+                dist++;
+                while (board.open({ x: this.pos.x + dist, y: this.pos.y })) {
+                    moves.push({ x: this.pos.x + dist, y: this.pos.y, blockedBy: blocker });
+                    dist++;
+                }
+                if (board.contains(otherColor, { x: this.pos.x + dist, y: this.pos.y })) {
+                    moves.push({ x: this.pos.x + dist, y: this.pos.y, blockedBy: blocker });
+                }
+                if (board.contains(this.color, { x: this.pos.x + dist, y: this.pos.y })) {
+                    moves.push({ x: this.pos.x + dist, y: this.pos.y, premove: true, blockedBy: blocker });
+                }
+            }
+
+
             dist = 1;
             while (board.open({ x: this.pos.x - dist, y: this.pos.y })) {
                 moves.push({ x: this.pos.x - dist, y: this.pos.y });
                 dist++;
             }
-            if (board.contains(otherColor, { x: this.pos.x - dist, y: this.pos.y })) {
-                moves.push({ x: this.pos.x - dist, y: this.pos.y });
-            }
             if (board.contains(this.color, { x: this.pos.x - dist, y: this.pos.y })) {
                 moves.push({ x: this.pos.x - dist, y: this.pos.y, premove: true });
             }
+            if (board.contains(otherColor, { x: this.pos.x - dist, y: this.pos.y })) {
+                moves.push({ x: this.pos.x - dist, y: this.pos.y });
+
+                var blocker = { x: this.pos.x - dist, y: this.pos.y };
+                dist++;
+                while (board.open({ x: this.pos.x - dist, y: this.pos.y })) {
+                    moves.push({ x: this.pos.x - dist, y: this.pos.y, blockedBy: blocker });
+                    dist++;
+                }
+                if (board.contains(otherColor, { x: this.pos.x - dist, y: this.pos.y })) {
+                    moves.push({ x: this.pos.x - dist, y: this.pos.y, blockedBy: blocker });
+                }
+                if (board.contains(this.color, { x: this.pos.x - dist, y: this.pos.y })) {
+                    moves.push({ x: this.pos.x - dist, y: this.pos.y, premove: true, blockedBy: blocker });
+                }
+            }
+
         }
         if (this.name == "bishop") {
             var dist = 1;
@@ -158,44 +216,102 @@ module.exports = class Piece {
                 moves.push({ x: this.pos.x + dist, y: this.pos.y + dist });
                 dist++;
             }
-            if (board.contains(otherColor, { x: this.pos.x + dist, y: this.pos.y + dist })) {
-                moves.push({ x: this.pos.x + dist, y: this.pos.y + dist });
-            }
             if (board.contains(this.color, { x: this.pos.x + dist, y: this.pos.y + dist })) {
                 moves.push({ x: this.pos.x + dist, y: this.pos.y + dist, premove: true });
             }
+            if (board.contains(otherColor, { x: this.pos.x + dist, y: this.pos.y + dist })) {
+                moves.push({ x: this.pos.x + dist, y: this.pos.y + dist });
+
+                var blocker = { x: this.pos.x + dist, y: this.pos.y + dist };
+                dist++;
+                while (board.open({ x: this.pos.x + dist, y: this.pos.y + dist })) {
+                    moves.push({ x: this.pos.x + dist, y: this.pos.y + dist, blockedBy: blocker });
+                    dist++;
+                }
+                if (board.contains(otherColor, { x: this.pos.x + dist, y: this.pos.y + dist })) {
+                    moves.push({ x: this.pos.x + dist, y: this.pos.y + dist, blockedBy: blocker });
+                }
+                if (board.contains(this.color, { x: this.pos.x + dist, y: this.pos.y + dist })) {
+                    moves.push({ x: this.pos.x + dist, y: this.pos.y + dist, premove: true, blockedBy: blocker });
+                }
+            }
+
+
             dist = 1;
             while (board.open({ x: this.pos.x + dist, y: this.pos.y - dist })) {
                 moves.push({ x: this.pos.x + dist, y: this.pos.y - dist });
                 dist++;
             }
-            if (board.contains(otherColor, { x: this.pos.x + dist, y: this.pos.y - dist })) {
-                moves.push({ x: this.pos.x + dist, y: this.pos.y - dist });
-            }
             if (board.contains(this.color, { x: this.pos.x + dist, y: this.pos.y - dist })) {
                 moves.push({ x: this.pos.x + dist, y: this.pos.y - dist, premove: true });
             }
+            if (board.contains(otherColor, { x: this.pos.x + dist, y: this.pos.y - dist })) {
+                moves.push({ x: this.pos.x + dist, y: this.pos.y - dist });
+
+                var blocker = { x: this.pos.x + dist, y: this.pos.y - dist };
+                dist++;
+                while (board.open({ x: this.pos.x + dist, y: this.pos.y - dist })) {
+                    moves.push({ x: this.pos.x + dist, y: this.pos.y - dist, blockedBy: blocker });
+                    dist++;
+                }
+                if (board.contains(otherColor, { x: this.pos.x + dist, y: this.pos.y - dist })) {
+                    moves.push({ x: this.pos.x + dist, y: this.pos.y - dist, blockedBy: blocker });
+                }
+                if (board.contains(this.color, { x: this.pos.x + dist, y: this.pos.y - dist })) {
+                    moves.push({ x: this.pos.x + dist, y: this.pos.y - dist, premove: true, blockedBy: blocker });
+                }
+            }
+
+
             dist = 1;
             while (board.open({ x: this.pos.x - dist, y: this.pos.y + dist })) {
                 moves.push({ x: this.pos.x - dist, y: this.pos.y + dist });
                 dist++;
             }
-            if (board.contains(otherColor, { x: this.pos.x - dist, y: this.pos.y + dist })) {
-                moves.push({ x: this.pos.x - dist, y: this.pos.y + dist });
-            }
             if (board.contains(this.color, { x: this.pos.x - dist, y: this.pos.y + dist })) {
                 moves.push({ x: this.pos.x - dist, y: this.pos.y + dist, premove: true });
             }
+            if (board.contains(otherColor, { x: this.pos.x - dist, y: this.pos.y + dist })) {
+                moves.push({ x: this.pos.x - dist, y: this.pos.y + dist });
+
+                var blocker = { x: this.pos.x - dist, y: this.pos.y + dist };
+                dist++;
+                while (board.open({ x: this.pos.x - dist, y: this.pos.y + dist })) {
+                    moves.push({ x: this.pos.x - dist, y: this.pos.y + dist, blockedBy: blocker });
+                    dist++;
+                }
+                if (board.contains(otherColor, { x: this.pos.x - dist, y: this.pos.y + dist })) {
+                    moves.push({ x: this.pos.x - dist, y: this.pos.y + dist, blockedBy: blocker });
+                }
+                if (board.contains(this.color, { x: this.pos.x - dist, y: this.pos.y + dist })) {
+                    moves.push({ x: this.pos.x - dist, y: this.pos.y + dist, premove: true, blockedBy: blocker });
+                }
+            }
+
+
             dist = 1;
             while (board.open({ x: this.pos.x - dist, y: this.pos.y - dist })) {
                 moves.push({ x: this.pos.x - dist, y: this.pos.y - dist });
                 dist++;
             }
-            if (board.contains(otherColor, { x: this.pos.x - dist, y: this.pos.y - dist })) {
-                moves.push({ x: this.pos.x - dist, y: this.pos.y - dist });
-            }
             if (board.contains(this.color, { x: this.pos.x - dist, y: this.pos.y - dist })) {
                 moves.push({ x: this.pos.x - dist, y: this.pos.y - dist, premove: true });
+            }
+            if (board.contains(otherColor, { x: this.pos.x - dist, y: this.pos.y - dist })) {
+                moves.push({ x: this.pos.x - dist, y: this.pos.y - dist });
+
+                var blocker = { x: this.pos.x - dist, y: this.pos.y - dist };
+                dist++;
+                while (board.open({ x: this.pos.x - dist, y: this.pos.y - dist })) {
+                    moves.push({ x: this.pos.x - dist, y: this.pos.y - dist, blockedBy: blocker });
+                    dist++;
+                }
+                if (board.contains(otherColor, { x: this.pos.x - dist, y: this.pos.y - dist })) {
+                    moves.push({ x: this.pos.x - dist, y: this.pos.y - dist, blockedBy: blocker });
+                }
+                if (board.contains(this.color, { x: this.pos.x - dist, y: this.pos.y - dist })) {
+                    moves.push({ x: this.pos.x - dist, y: this.pos.y - dist, premove: true, blockedBy: blocker });
+                }
             }
         }
         if (this.name == "queen") {
@@ -204,89 +320,207 @@ module.exports = class Piece {
                 moves.push({ x: this.pos.x, y: this.pos.y + dist });
                 dist++;
             }
-            if (board.contains(otherColor, { x: this.pos.x, y: this.pos.y + dist })) {
-                moves.push({ x: this.pos.x, y: this.pos.y + dist });
-            }
             if (board.contains(this.color, { x: this.pos.x, y: this.pos.y + dist })) {
                 moves.push({ x: this.pos.x, y: this.pos.y + dist, premove: true });
             }
+            if (board.contains(otherColor, { x: this.pos.x, y: this.pos.y + dist })) {
+                moves.push({ x: this.pos.x, y: this.pos.y + dist });
+
+                var blocker = { x: this.pos.x, y: this.pos.y + dist };
+                dist++;
+                while (board.open({ x: this.pos.x, y: this.pos.y + dist })) {
+                    moves.push({ x: this.pos.x, y: this.pos.y + dist, blockedBy: blocker });
+                    dist++;
+                }
+                if (board.contains(otherColor, { x: this.pos.x, y: this.pos.y + dist })) {
+                    moves.push({ x: this.pos.x, y: this.pos.y + dist, blockedBy: blocker });
+                }
+                if (board.contains(this.color, { x: this.pos.x, y: this.pos.y + dist })) {
+                    moves.push({ x: this.pos.x, y: this.pos.y + dist, premove: true, blockedBy: blocker });
+                }
+            }
+
             dist = 1;
             while (board.open({ x: this.pos.x, y: this.pos.y - dist })) {
                 moves.push({ x: this.pos.x, y: this.pos.y - dist });
                 dist++;
             }
-            if (board.contains(otherColor, { x: this.pos.x, y: this.pos.y - dist })) {
-                moves.push({ x: this.pos.x, y: this.pos.y - dist });
-            }
             if (board.contains(this.color, { x: this.pos.x, y: this.pos.y - dist })) {
                 moves.push({ x: this.pos.x, y: this.pos.y - dist, premove: true });
             }
+            if (board.contains(otherColor, { x: this.pos.x, y: this.pos.y - dist })) {
+                moves.push({ x: this.pos.x, y: this.pos.y - dist });
+
+                var blocker = { x: this.pos.x, y: this.pos.y - dist };
+                dist++;
+                while (board.open({ x: this.pos.x, y: this.pos.y - dist })) {
+                    moves.push({ x: this.pos.x, y: this.pos.y - dist, blockedBy: blocker });
+                    dist++;
+                }
+                if (board.contains(otherColor, { x: this.pos.x, y: this.pos.y - dist })) {
+                    moves.push({ x: this.pos.x, y: this.pos.y - dist, blockedBy: blocker });
+                }
+                if (board.contains(this.color, { x: this.pos.x, y: this.pos.y - dist })) {
+                    moves.push({ x: this.pos.x, y: this.pos.y - dist, premove: true, blockedBy: blocker });
+                }
+            }
+
+
             dist = 1;
             while (board.open({ x: this.pos.x + dist, y: this.pos.y })) {
                 moves.push({ x: this.pos.x + dist, y: this.pos.y });
                 dist++;
             }
-            if (board.contains(otherColor, { x: this.pos.x + dist, y: this.pos.y })) {
-                moves.push({ x: this.pos.x + dist, y: this.pos.y });
-            }
             if (board.contains(this.color, { x: this.pos.x + dist, y: this.pos.y })) {
                 moves.push({ x: this.pos.x + dist, y: this.pos.y, premove: true });
             }
+            if (board.contains(otherColor, { x: this.pos.x + dist, y: this.pos.y })) {
+                moves.push({ x: this.pos.x + dist, y: this.pos.y });
+
+                var blocker = { x: this.pos.x + dist, y: this.pos.y };
+                dist++;
+                while (board.open({ x: this.pos.x + dist, y: this.pos.y })) {
+                    moves.push({ x: this.pos.x + dist, y: this.pos.y, blockedBy: blocker });
+                    dist++;
+                }
+                if (board.contains(otherColor, { x: this.pos.x + dist, y: this.pos.y })) {
+                    moves.push({ x: this.pos.x + dist, y: this.pos.y, blockedBy: blocker });
+                }
+                if (board.contains(this.color, { x: this.pos.x + dist, y: this.pos.y })) {
+                    moves.push({ x: this.pos.x + dist, y: this.pos.y, premove: true, blockedBy: blocker });
+                }
+            }
+
+
             dist = 1;
             while (board.open({ x: this.pos.x - dist, y: this.pos.y })) {
                 moves.push({ x: this.pos.x - dist, y: this.pos.y });
                 dist++;
             }
-            if (board.contains(otherColor, { x: this.pos.x - dist, y: this.pos.y })) {
-                moves.push({ x: this.pos.x - dist, y: this.pos.y });
-            }
             if (board.contains(this.color, { x: this.pos.x - dist, y: this.pos.y })) {
                 moves.push({ x: this.pos.x - dist, y: this.pos.y, premove: true });
             }
-            dist = 1;
+            if (board.contains(otherColor, { x: this.pos.x - dist, y: this.pos.y })) {
+                moves.push({ x: this.pos.x - dist, y: this.pos.y });
+
+                var blocker = { x: this.pos.x - dist, y: this.pos.y };
+                dist++;
+                while (board.open({ x: this.pos.x - dist, y: this.pos.y })) {
+                    moves.push({ x: this.pos.x - dist, y: this.pos.y, blockedBy: blocker });
+                    dist++;
+                }
+                if (board.contains(otherColor, { x: this.pos.x - dist, y: this.pos.y })) {
+                    moves.push({ x: this.pos.x - dist, y: this.pos.y, blockedBy: blocker });
+                }
+                if (board.contains(this.color, { x: this.pos.x - dist, y: this.pos.y })) {
+                    moves.push({ x: this.pos.x - dist, y: this.pos.y, premove: true, blockedBy: blocker });
+                }
+            }
+
+
+            var dist = 1;
             while (board.open({ x: this.pos.x + dist, y: this.pos.y + dist })) {
                 moves.push({ x: this.pos.x + dist, y: this.pos.y + dist });
                 dist++;
             }
-            if (board.contains(otherColor, { x: this.pos.x + dist, y: this.pos.y + dist })) {
-                moves.push({ x: this.pos.x + dist, y: this.pos.y + dist });
-            }
             if (board.contains(this.color, { x: this.pos.x + dist, y: this.pos.y + dist })) {
                 moves.push({ x: this.pos.x + dist, y: this.pos.y + dist, premove: true });
             }
+            if (board.contains(otherColor, { x: this.pos.x + dist, y: this.pos.y + dist })) {
+                moves.push({ x: this.pos.x + dist, y: this.pos.y + dist });
+
+                var blocker = { x: this.pos.x + dist, y: this.pos.y + dist };
+                dist++;
+                while (board.open({ x: this.pos.x + dist, y: this.pos.y + dist })) {
+                    moves.push({ x: this.pos.x + dist, y: this.pos.y + dist, blockedBy: blocker });
+                    dist++;
+                }
+                if (board.contains(otherColor, { x: this.pos.x + dist, y: this.pos.y + dist })) {
+                    moves.push({ x: this.pos.x + dist, y: this.pos.y + dist, blockedBy: blocker });
+                }
+                if (board.contains(this.color, { x: this.pos.x + dist, y: this.pos.y + dist })) {
+                    moves.push({ x: this.pos.x + dist, y: this.pos.y + dist, premove: true, blockedBy: blocker });
+                }
+            }
+
+
             dist = 1;
             while (board.open({ x: this.pos.x + dist, y: this.pos.y - dist })) {
                 moves.push({ x: this.pos.x + dist, y: this.pos.y - dist });
                 dist++;
             }
-            if (board.contains(otherColor, { x: this.pos.x + dist, y: this.pos.y - dist })) {
-                moves.push({ x: this.pos.x + dist, y: this.pos.y - dist });
-            }
             if (board.contains(this.color, { x: this.pos.x + dist, y: this.pos.y - dist })) {
                 moves.push({ x: this.pos.x + dist, y: this.pos.y - dist, premove: true });
             }
+            if (board.contains(otherColor, { x: this.pos.x + dist, y: this.pos.y - dist })) {
+                moves.push({ x: this.pos.x + dist, y: this.pos.y - dist });
+
+                var blocker = { x: this.pos.x + dist, y: this.pos.y - dist };
+                dist++;
+                while (board.open({ x: this.pos.x + dist, y: this.pos.y - dist })) {
+                    moves.push({ x: this.pos.x + dist, y: this.pos.y - dist, blockedBy: blocker });
+                    dist++;
+                }
+                if (board.contains(otherColor, { x: this.pos.x + dist, y: this.pos.y - dist })) {
+                    moves.push({ x: this.pos.x + dist, y: this.pos.y - dist, blockedBy: blocker });
+                }
+                if (board.contains(this.color, { x: this.pos.x + dist, y: this.pos.y - dist })) {
+                    moves.push({ x: this.pos.x + dist, y: this.pos.y - dist, premove: true, blockedBy: blocker });
+                }
+            }
+
+
             dist = 1;
             while (board.open({ x: this.pos.x - dist, y: this.pos.y + dist })) {
                 moves.push({ x: this.pos.x - dist, y: this.pos.y + dist });
                 dist++;
             }
-            if (board.contains(otherColor, { x: this.pos.x - dist, y: this.pos.y + dist })) {
-                moves.push({ x: this.pos.x - dist, y: this.pos.y + dist });
-            }
             if (board.contains(this.color, { x: this.pos.x - dist, y: this.pos.y + dist })) {
                 moves.push({ x: this.pos.x - dist, y: this.pos.y + dist, premove: true });
             }
+            if (board.contains(otherColor, { x: this.pos.x - dist, y: this.pos.y + dist })) {
+                moves.push({ x: this.pos.x - dist, y: this.pos.y + dist });
+
+                var blocker = { x: this.pos.x - dist, y: this.pos.y + dist };
+                dist++;
+                while (board.open({ x: this.pos.x - dist, y: this.pos.y + dist })) {
+                    moves.push({ x: this.pos.x - dist, y: this.pos.y + dist, blockedBy: blocker });
+                    dist++;
+                }
+                if (board.contains(otherColor, { x: this.pos.x - dist, y: this.pos.y + dist })) {
+                    moves.push({ x: this.pos.x - dist, y: this.pos.y + dist, blockedBy: blocker });
+                }
+                if (board.contains(this.color, { x: this.pos.x - dist, y: this.pos.y + dist })) {
+                    moves.push({ x: this.pos.x - dist, y: this.pos.y + dist, premove: true, blockedBy: blocker });
+                }
+            }
+
+
             dist = 1;
             while (board.open({ x: this.pos.x - dist, y: this.pos.y - dist })) {
                 moves.push({ x: this.pos.x - dist, y: this.pos.y - dist });
                 dist++;
             }
-            if (board.contains(otherColor, { x: this.pos.x - dist, y: this.pos.y - dist })) {
-                moves.push({ x: this.pos.x - dist, y: this.pos.y - dist });
-            }
             if (board.contains(this.color, { x: this.pos.x - dist, y: this.pos.y - dist })) {
                 moves.push({ x: this.pos.x - dist, y: this.pos.y - dist, premove: true });
             }
+            if (board.contains(otherColor, { x: this.pos.x - dist, y: this.pos.y - dist })) {
+                moves.push({ x: this.pos.x - dist, y: this.pos.y - dist });
+
+                var blocker = { x: this.pos.x - dist, y: this.pos.y - dist };
+                dist++;
+                while (board.open({ x: this.pos.x - dist, y: this.pos.y - dist })) {
+                    moves.push({ x: this.pos.x - dist, y: this.pos.y - dist, blockedBy: blocker });
+                    dist++;
+                }
+                if (board.contains(otherColor, { x: this.pos.x - dist, y: this.pos.y - dist })) {
+                    moves.push({ x: this.pos.x - dist, y: this.pos.y - dist, blockedBy: blocker });
+                }
+                if (board.contains(this.color, { x: this.pos.x - dist, y: this.pos.y - dist })) {
+                    moves.push({ x: this.pos.x - dist, y: this.pos.y - dist, premove: true, blockedBy: blocker });
+                }
+            }
+
         }
         if (this.name == "king") {
             var shifts = [
