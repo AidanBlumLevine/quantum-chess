@@ -8,10 +8,11 @@ $(function () {
     var board;
     var canvas = $('canvas')[0];
 
-    window.oncontextmenu = function ()
-    {
-        $('#lockin:visible').click();
-        return false;
+    window.oncontextmenu = function () {
+        if ($('#lockin:visible').length > 0) {
+            $('#lockin:visible').click();
+            return false;
+        }
     }
 
     let searchParams = new URLSearchParams(window.location.search);
