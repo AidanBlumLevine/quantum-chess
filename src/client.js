@@ -7,6 +7,13 @@ window.boringChess = true;
 $(function () {
     var board;
     var canvas = $('canvas')[0];
+
+    window.oncontextmenu = function ()
+    {
+        $('#lockin:visible').click();
+        return false;
+    }
+
     let searchParams = new URLSearchParams(window.location.search);
     if (searchParams.has('c')) {
         $('#input').val(searchParams.get('c'));
