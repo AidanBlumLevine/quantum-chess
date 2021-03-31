@@ -6,13 +6,18 @@ window.boringChess = true;
 
 $(function () {
     var board;
-    var canvas = $('canvas')[0];
+    var canvas = $('#board')[0];
+    var wd = $('#whitedead')[0];
+    var bd = $('#blackdead')[0];
 
     window.oncontextmenu = function () {
         if ($('#lockin:visible').length > 0) {
             $('#lockin:visible').click();
-            return false;
+            if ($('#lockin:visible').length == 0) {
+                return false;
+            }
         }
+        return true;
     }
 
     let searchParams = new URLSearchParams(window.location.search);
@@ -28,7 +33,7 @@ $(function () {
     });
 
     socket.on('connected', function (data) {
-        board = new Board(canvas);
+        board = new Board(canvas, wd, bd);
         board.playerColor = data.color;
         $('#id').text(data.id);
         $('#new').hide();

@@ -1,6 +1,6 @@
 var Piece = require('./piece.js');
 module.exports = class Board {
-    constructor(canvas) {
+    constructor(canvas, wd, bd) {
         this.moves = [];
         this.layoutBoard();
         this.locked = false;
@@ -10,6 +10,8 @@ module.exports = class Board {
             this.client = true;
             this.canvas = canvas;
             this.ctx = canvas.getContext('2d');
+            this.wdctx = wd.getContext('2d');
+            this.bdctx = bd.getContext('2d');
             this.tile = canvas.width / 8;
             this.drawChessBoard();
             this.drawPieces();
@@ -200,6 +202,9 @@ module.exports = class Board {
         for (var i in state) {
             this.pieces[i].pos = state[i].pos;
             this.pieces[i].move = undefined;
+            if(state[i].dead === true){
+                this.pieces[i].dead = true;
+            }
         }
         this.moves = [];
         this.locked = false;
@@ -231,11 +236,34 @@ module.exports = class Board {
             this.ctx.strokeRect(move.start.x * this.tile + 6, move.start.y * this.tile + 6, this.tile - 12, this.tile - 12);
         }
         this.ctx.globalAlpha = 1;
+
+        this.wdctx.fillStyle = "#f5f5e7";
+        this.wdctx.fillRect(0, 0, 100, 700);
+        this.bdctx.fillStyle = "#f5f5e7";
+        this.bdctx.fillRect(0, 0, 100, 700);
+
+        var wHeight = 0, bHeight = 0;
+        for (var piece of this.pieces) {
+            if (piece.dead) {
+                var dctx = this.bdctx;
+                var height = bHeight;
+                if (piece.color == "white") {
+                    dctx = this.wdctx;
+                    height = wHeight;
+                    wHeight += 40;
+                } else {
+                    bHeight += 40;
+                }
+                piece.drawRaw(dctx, 0, height);
+            }
+        }
     }
 
     drawPieces() {
         for (var piece of this.pieces) {
-            piece.draw(this.ctx, this.tile);
+            if (!piece.dead) {
+                piece.draw(this.ctx, this.tile);
+            }
         }
     }
 

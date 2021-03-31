@@ -43,6 +43,11 @@ button {
     cursor: pointer;
 }
 
+#board{
+    margin-left: 1.5rem;
+    margin-right: 1.5rem;
+}
+
 button:hover {
     background-color: #0c73aa;
 }
