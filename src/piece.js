@@ -3,10 +3,13 @@ module.exports = class Piece {
         this.name = name;
         this.color = color;
         this.pos = pos;
+        this.hasMoved = false;
         if (name == "pawn") {
             this.startingPos = pos;
         }
-
+        this.setPiece();
+    }
+    setPiece() {
         try {
             if (window.boringChess) {
                 if (this.color == "black") {
@@ -77,7 +80,6 @@ module.exports = class Piece {
         ctx.fillStyle = "#354525";
         ctx.font = tile * .45 + 'px serif';
         ctx.fillText(this.text, x + tile / 2, y + tile / 2 + 4);
-        console.log(x + tile / 2 + ' , ' + y + tile / 2 + 4);
     }
 
     draw(ctx, tile) {
@@ -550,6 +552,22 @@ module.exports = class Piece {
                 }
                 if (board.contains(this.color, { x: this.pos.x + shift.x, y: this.pos.y + shift.y })) {
                     moves.push({ x: this.pos.x + shift.x, y: this.pos.y + shift.y, premove: true });
+                }
+            }
+            if (!this.hasMoved && this.color == "black") {
+                if (!board.pieces[0].hasMoved && board.open({x: 1, y: 0}) && board.open({x: 2, y: 0})) {
+                    moves.push({x: 1, y:0, castle: true, rookX: 2, rookY: 0, rookIndex: 0})
+                }
+                if (!board.pieces[7].hasMoved && board.open({x: 4, y: 0}) && board.open({x: 5, y: 0}) && board.open({x: 6, y: 0})) {
+                    moves.push({x: 5, y:0, castle: true, rookX: 4, rookY: 0, rookIndex: 7})
+                }
+            }
+            if (!this.hasMoved && this.color == "white") {
+                if (!board.pieces[16].hasMoved && board.open({x: 1, y: 7}) && board.open({x: 2, y: 7})) {
+                    moves.push({x: 1, y:7, castle: true, rookX: 2, rookY: 7, rookIndex: 16})
+                }
+                if (!board.pieces[23].hasMoved && board.open({x: 4, y: 7}) && board.open({x: 5, y: 7}) && board.open({x: 6, y: 7})) {
+                    moves.push({x: 5, y:7, castle: true, rookX: 4, rookY: 7, rookIndex: 23})
                 }
             }
         }

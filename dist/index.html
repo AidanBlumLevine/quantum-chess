@@ -1,6 +1,6 @@
 <head>
     <link rel="stylesheet" href="style.css">
-    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico"/>
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
     <title>Quantum Chess</title>
 </head>
 <div class="header">
@@ -16,6 +16,18 @@
 </div>
 <div class="center">
     <button id="lockin" style="display: none;">Lock In</button>
+</div>
+
+<div class="modal-wrapper">
+    <div class="modal">
+        <div class="modal-title">
+            What do you want to upgrade to?
+        </div>
+        <div style="display: flex;">
+            <button id="queen">Queen</button>
+            <button id="knight">Knight</button>
+        </div>
+    </div>
 </div>
 <script src="/socket.io/socket.io.js"></script>
 <script src="pack.js"></script>

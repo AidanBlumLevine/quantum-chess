@@ -18,6 +18,7 @@ module.exports = class Board {
             canvas.addEventListener("mousedown", (e) => this.onMouseDown(e), false);
             canvas.addEventListener("mouseup", (e) => this.onMouseUp(e), false);
             canvas.addEventListener("mousemove", (e) => this.onMouseMove(e), false);
+            this.modalOpen = false;
         }
     }
 
@@ -112,10 +113,14 @@ module.exports = class Board {
                     if (moveB.premove && moveB.x == moveW.x && moveB.y == moveW.y) {
                         wAttack.kill();
                         pieceW.kill();
+                        if (moveB.upgrade != undefined){
+                            pieceB.name = moveB.upgrade;
+                        }
                         pieceB.pos = {
                             x: moveB.x,
                             y: moveB.y
                         };
+                        pieceB.hasMoved = true;
                         return;
                     }
                 }
@@ -123,10 +128,14 @@ module.exports = class Board {
                     if (moveW.premove && moveW.x == moveB.x && moveW.y == moveB.y) {
                         bAttack.kill();
                         pieceB.kill();
+                        if (moveW.upgrade != undefined){
+                            pieceW.name = moveW.upgrade;
+                        }
                         pieceW.pos = {
                             x: moveW.x,
                             y: moveW.y
                         };
+                        pieceW.hasMoved = true;
                         return;
                     }
                 }
@@ -141,6 +150,98 @@ module.exports = class Board {
                 var pieceB = this.pieces.filter(p => p.pos.x == moveB.start.x && p.pos.y == moveB.start.y)[0];
                 var pieceW = this.pieces.filter(p => p.pos.x == moveW.start.x && p.pos.y == moveW.start.y)[0];
 
+                if (moveB.castle) {
+                    if (moveW.x == moveB.x && moveW.y == moveB.y) {
+                        console.log(move);
+                        pieceB.kill();
+                        pieceW.kill();
+                        this.pieces[moveB.rookIndex].pos = {
+                            x: moveB.rookX,
+                            y: moveB.rookY
+                        };
+                        this.pieces[moveB.rookIndex].hasMoved = true;
+                        console.log(this.pieces[moveB.rookIndex]);
+                        return;
+                    }
+                    if (moveW.x == move.rookX && moveW.y == move.rookY) {
+                        this.pieces[moveB.rookIndex].kill();
+                        pieceW.kill();
+                        pieceB.pos = {
+                            x: moveB.x,
+                            y: moveB.y
+                        };
+                        pieceB.hasMoved = true;
+                        return;
+                    }
+                    this.pieces[moveB.rookIndex].pos = {
+                        x: moveB.rookX,
+                        y: moveB.rookY
+                    };
+                    this.pieces[moveB.rookIndex].hasMoved = true;
+                    pieceB.pos = {
+                        x: moveB.x,
+                        y: moveB.y
+                    };
+                    pieceB.hasMoved = true;
+                    if (wAttack !== undefined) {
+                        wAttack.kill();
+                    }
+                    if (moveW.upgrade != undefined){
+                        pieceW.name = moveW.upgrade;
+                    }
+                    pieceW.pos = {
+                        x: moveW.x,
+                        y: moveW.y
+                    };
+                    pieceW.hasMoved = true;
+                    return;
+                }
+
+                if (moveW.castle) {
+                    if (moveB.x == moveW.x && moveB.y == moveW.y) {
+                        pieceB.kill();
+                        pieceW.kill();
+                        this.pieces[moveW.rookIndex].pos = {
+                            x: moveW.rookX,
+                            y: moveW.rookY
+                        };
+                        this.pieces[moveW.rookIndex].hasMoved = true;
+                        return;
+                    }
+                    if (moveB.x == move.rookX && moveB.y == move.rookY) {
+                        this.pieces[moveW.rookIndex].kill();
+                        pieceB.kill();
+                        pieceW.pos = {
+                            x: moveW.x,
+                            y: moveW.y
+                        };
+                        pieceW.hasMoved = true;
+                        return;
+                    }
+                    this.pieces[moveW.rookIndex].pos = {
+                        x: moveW.rookX,
+                        y: moveW.rookY
+                    };
+                    this.pieces[moveW.rookIndex].hasMoved = true;
+                    pieceW.pos = {
+                        x: moveW.x,
+                        y: moveW.y
+                    };
+                    pieceW.hasMoved = true;
+                    if (bAttack !== undefined) {
+                        bAttack.kill();
+                    }
+                    if (moveB.upgrade != undefined){
+                        pieceB.name = moveB.upgrade;
+                    }
+                    pieceB.pos = {
+                        x: moveB.x,
+                        y: moveB.y
+                    };
+                    pieceB.hasMoved = true;
+                    return;
+                }
+
                 if (moveB.x == moveW.x && moveB.y == moveW.y) {
                     pieceB.kill();
                     pieceW.kill();
@@ -152,28 +253,44 @@ module.exports = class Board {
                     return;
                 }
                 else if (moveB.x == moveW.start.x && moveB.y == moveW.start.y) {
+                    if (moveB.upgrade != undefined){
+                        pieceB.name = moveB.upgrade;
+                    }
                     pieceB.pos = {
                         x: moveB.x,
                         y: moveB.y
                     };
+                    pieceB.hasMoved = true;
+                    if (moveW.upgrade != undefined){
+                        pieceW.name = moveW.upgrade;
+                    }
                     pieceW.pos = {
                         x: moveW.x,
                         y: moveW.y
                     };
+                    pieceW.hasMoved = true;
                     if (wAttack !== undefined) {
                         wAttack.kill();
                     }
                     return;
                 }
                 else if (moveW.x == moveB.start.x && moveW.y == moveB.start.y) {
+                    if (moveB.upgrade != undefined){
+                        pieceB.name = moveB.upgrade;
+                    }
                     pieceB.pos = {
                         x: moveB.x,
                         y: moveB.y
                     };
+                    pieceB.hasMoved = true;
+                    if (moveW.upgrade != undefined){
+                        pieceW.name = moveW.upgrade;
+                    }
                     pieceW.pos = {
                         x: moveW.x,
                         y: moveW.y
                     };
+                    pieceW.hasMoved = true;
                     if (bAttack !== undefined) {
                         bAttack.kill();
                     }
@@ -182,17 +299,25 @@ module.exports = class Board {
                 if (bAttack !== undefined) {
                     bAttack.kill();
                 }
+                if (moveB.upgrade != undefined){
+                    pieceB.name = moveB.upgrade;
+                }
                 pieceB.pos = {
                     x: moveB.x,
                     y: moveB.y
                 };
+                pieceB.hasMoved = true;
                 if (wAttack !== undefined) {
                     wAttack.kill();
+                }
+                if (moveW.upgrade != undefined){
+                    pieceW.name = moveW.upgrade;
                 }
                 pieceW.pos = {
                     x: moveW.x,
                     y: moveW.y
                 };
+                pieceW.hasMoved = true;
             }
         }
     }
@@ -202,9 +327,12 @@ module.exports = class Board {
         for (var i in state) {
             this.pieces[i].pos = state[i].pos;
             this.pieces[i].move = undefined;
-            if(state[i].dead === true){
+            if (state[i].dead === true) {
                 this.pieces[i].dead = true;
             }
+            this.pieces[i].hasMoved = state[i].hasMoved;
+            this.pieces[i].name = state[i].name;
+            this.pieces[i].setPiece();
         }
         this.moves = [];
         this.locked = false;
@@ -283,7 +411,7 @@ module.exports = class Board {
     }
 
     onMouseDown(e) {
-        if (this.locked)
+        if (this.locked || this.modalOpen)
             return;
         this.dragging = this.getPiece(this.getTile(e));
         if (this.dragging != undefined && this.dragging.color == this.playerColor) {
@@ -314,6 +442,11 @@ module.exports = class Board {
                     for (var piece of this.pieces) {
                         if (piece.move !== undefined && !this.moves.includes(piece.move))
                             piece.move = undefined;
+                    }
+                    if ((move.y == 0 || move.y == 7) && this.dragging.name == "pawn"){
+                        document.getElementsByClassName('modal')[0].classList.add('open');
+                        //move.upgrade = confirm("yo you want a queen or nah m9") ? "queen" : "knight";
+                        this.modalOpen = true;
                     }
                     this.moves.push(move);
                     this.dragging.move = move;
