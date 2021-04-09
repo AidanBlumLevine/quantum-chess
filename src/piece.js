@@ -75,7 +75,7 @@ module.exports = class Piece {
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
         ctx.fillStyle = "#354525";
-        ctx.font = tile * .9 + 'px serif';
+        ctx.font = tile * .45 + 'px serif';
         ctx.fillText(this.text, x + tile / 2, y + tile / 2 + 4);
         console.log(x + tile / 2 + ' , ' + y + tile / 2 + 4);
     }
