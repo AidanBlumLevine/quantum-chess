@@ -10,87 +10,20 @@ module.exports = class Piece {
         this.setPiece();
     }
     setPiece() {
-        try {
-            if (window.boringChess) {
-                if (this.color == "black") {
-                    this.text = '❌';
-                    if (this.name == "pawn")
-                        this.text = '♟';
-                    if (this.name == "rook")
-                        this.text = '♜';
-                    if (this.name == "bishop")
-                        this.text = '♝';
-                    if (this.name == "knight")
-                        this.text = '♞';
-                    if (this.name == "king")
-                        this.text = '♚';
-                    if (this.name == "queen")
-                        this.text = '♛';
-                } else {
-                    if (this.name == "pawn")
-                        this.text = '♙';
-                    if (this.name == "rook")
-                        this.text = '♖';
-                    if (this.name == "bishop")
-                        this.text = '♗';
-                    if (this.name == "knight")
-                        this.text = '♘';
-                    if (this.name == "king")
-                        this.text = '♔';
-                    if (this.name == "queen")
-                        this.text = '♕';
-                }
-            } else {
-                if (this.color == "black") {
-                    this.text = '❌';
-                    if (this.name == "pawn")
-                        this.text = '🦈';
-                    if (this.name == "rook")
-                        this.text = '🐧';
-                    if (this.name == "bishop")
-                        this.text = '🐬';
-                    if (this.name == "knight")
-                        this.text = '🐡';
-                    if (this.name == "king")
-                        this.text = '🐠';
-                    if (this.name == "queen")
-                        this.text = '🐳';
-                } else {
-                    if (this.name == "pawn")
-                        this.text = '🦀';
-                    if (this.name == "rook")
-                        this.text = '🐚';
-                    if (this.name == "bishop")
-                        this.text = '🦑';
-                    if (this.name == "knight")
-                        this.text = '🦐';
-                    if (this.name == "king")
-                        this.text = '🐙';
-                    if (this.name == "queen")
-                        this.text = '🦞';
-                }
-            }
-        } catch { }
+        if(typeof document !== 'undefined')
+            this.img = document.getElementById(this.color + this.name);
     }
 
     drawRaw(ctx, x, y) {
-        var tile = 100;
-        ctx.textAlign = "center";
-        ctx.textBaseline = "middle";
-        ctx.fillStyle = "#354525";
-        ctx.font = tile * .45 + 'px serif';
-        ctx.fillText(this.text, x + tile / 2, y + tile / 2 + 4);
+        ctx.drawImage(this.img, x, y, 50, 50);
     }
 
-    draw(ctx, tile) {
-        ctx.textAlign = "center";
-        ctx.textBaseline = "middle";
-        ctx.fillStyle = "#354525";
-        ctx.font = tile * .9 + 'px serif';
-        if (this.dead) {
-            this.text = '❌';
+    draw(ctx, tile, flip = false) {
+        if(flip){
+            ctx.drawImage(this.img, this.pos.x * tile, this.pos.y * tile, tile, tile);
+        } else {
+            ctx.drawImage(this.img, this.pos.x * tile, (7-this.pos.y) * tile, tile, tile);
         }
-        ctx.fillText(this.text, this.pos.x * tile + tile / 2, this.pos.y * tile + tile / 2 + 8);
     }
 
     getLegalMoves(board) {
@@ -99,7 +32,7 @@ module.exports = class Piece {
         if (this.name == "pawn") {
             var dir = this.color == "black" ? 1 : -1;
             if (this.startingPos.x == this.pos.x && this.startingPos.y == this.pos.y) {
-                if (board.open({ x: this.pos.x, y: this.pos.y + 2 * dir })) {
+                if (board.open({ x: this.pos.x, y: this.pos.y + 2 * dir }) && board.open({ x: this.pos.x, y: this.pos.y + 1 * dir })) {
                     moves.push({ x: this.pos.x, y: this.pos.y + 2 * dir });
                 }
             }
@@ -555,19 +488,19 @@ module.exports = class Piece {
                 }
             }
             if (!this.hasMoved && this.color == "black") {
-                if (!board.pieces[0].hasMoved && board.open({x: 1, y: 0}) && board.open({x: 2, y: 0})) {
-                    moves.push({x: 1, y:0, castle: true, rookX: 2, rookY: 0, rookIndex: 0})
+                if (!board.pieces[0].hasMoved && board.open({ x: 1, y: 0 }) && board.open({ x: 2, y: 0 })) {
+                    moves.push({ x: 1, y: 0, castle: true, rookX: 2, rookY: 0, rookIndex: 0 })
                 }
-                if (!board.pieces[7].hasMoved && board.open({x: 4, y: 0}) && board.open({x: 5, y: 0}) && board.open({x: 6, y: 0})) {
-                    moves.push({x: 5, y:0, castle: true, rookX: 4, rookY: 0, rookIndex: 7})
+                if (!board.pieces[7].hasMoved && board.open({ x: 4, y: 0 }) && board.open({ x: 5, y: 0 }) && board.open({ x: 6, y: 0 })) {
+                    moves.push({ x: 5, y: 0, castle: true, rookX: 4, rookY: 0, rookIndex: 7 })
                 }
             }
             if (!this.hasMoved && this.color == "white") {
-                if (!board.pieces[16].hasMoved && board.open({x: 1, y: 7}) && board.open({x: 2, y: 7})) {
-                    moves.push({x: 1, y:7, castle: true, rookX: 2, rookY: 7, rookIndex: 16})
+                if (!board.pieces[16].hasMoved && board.open({ x: 1, y: 7 }) && board.open({ x: 2, y: 7 })) {
+                    moves.push({ x: 1, y: 7, castle: true, rookX: 2, rookY: 7, rookIndex: 16 })
                 }
-                if (!board.pieces[23].hasMoved && board.open({x: 4, y: 7}) && board.open({x: 5, y: 7}) && board.open({x: 6, y: 7})) {
-                    moves.push({x: 5, y:7, castle: true, rookX: 4, rookY: 7, rookIndex: 23})
+                if (!board.pieces[23].hasMoved && board.open({ x: 4, y: 7 }) && board.open({ x: 5, y: 7 }) && board.open({ x: 6, y: 7 })) {
+                    moves.push({ x: 5, y: 7, castle: true, rookX: 4, rookY: 7, rookIndex: 23 })
                 }
             }
         }

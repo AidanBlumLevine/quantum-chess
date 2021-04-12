@@ -35,10 +35,18 @@ $(function () {
     socket.on('connected', function (data) {
         board = new Board(canvas, wd, bd);
         board.playerColor = data.color;
+        board.modalOpen = true;
+        board.drawChessBoard();
+        board.drawPieces();
         $('#id').text(data.id);
         $('#new').hide();
         $('#input').hide();
         $('#lockin').show();
+        $('#startmodal').addClass("open");
+    });
+    socket.on('start', () => {
+        $('#startmodal').removeClass("open");
+        board.modalOpen = false;
     });
     socket.on('bad-room', function () {
         alert('Bad code');
@@ -66,12 +74,12 @@ $(function () {
     });
     $('#queen').on('click', function () {
         board.moves[board.moves.length - 1].upgrade = "queen";
-        $('.modal').removeClass('open');
+        $('#upgrademodal').removeClass('open');
         board.modalOpen = false;
     });
     $('#knight').on('click', function () {
         board.moves[board.moves.length - 1].upgrade = "knight";
-        $('.modal').removeClass('open');
+        $('#upgrademodal').removeClass('open');
         board.modalOpen = false;
     });
 });

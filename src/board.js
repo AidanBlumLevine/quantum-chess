@@ -13,8 +13,6 @@ module.exports = class Board {
             this.wdctx = wd.getContext('2d');
             this.bdctx = bd.getContext('2d');
             this.tile = canvas.width / 8;
-            this.drawChessBoard();
-            this.drawPieces();
             canvas.addEventListener("mousedown", (e) => this.onMouseDown(e), false);
             canvas.addEventListener("mouseup", (e) => this.onMouseUp(e), false);
             canvas.addEventListener("mousemove", (e) => this.onMouseMove(e), false);
@@ -113,7 +111,7 @@ module.exports = class Board {
                     if (moveB.premove && moveB.x == moveW.x && moveB.y == moveW.y) {
                         wAttack.kill();
                         pieceW.kill();
-                        if (moveB.upgrade != undefined){
+                        if (moveB.upgrade != undefined) {
                             pieceB.name = moveB.upgrade;
                         }
                         pieceB.pos = {
@@ -128,7 +126,7 @@ module.exports = class Board {
                     if (moveW.premove && moveW.x == moveB.x && moveW.y == moveB.y) {
                         bAttack.kill();
                         pieceB.kill();
-                        if (moveW.upgrade != undefined){
+                        if (moveW.upgrade != undefined) {
                             pieceW.name = moveW.upgrade;
                         }
                         pieceW.pos = {
@@ -186,7 +184,7 @@ module.exports = class Board {
                     if (wAttack !== undefined) {
                         wAttack.kill();
                     }
-                    if (moveW.upgrade != undefined){
+                    if (moveW.upgrade != undefined) {
                         pieceW.name = moveW.upgrade;
                     }
                     pieceW.pos = {
@@ -231,7 +229,7 @@ module.exports = class Board {
                     if (bAttack !== undefined) {
                         bAttack.kill();
                     }
-                    if (moveB.upgrade != undefined){
+                    if (moveB.upgrade != undefined) {
                         pieceB.name = moveB.upgrade;
                     }
                     pieceB.pos = {
@@ -253,7 +251,7 @@ module.exports = class Board {
                     return;
                 }
                 else if (moveB.x == moveW.start.x && moveB.y == moveW.start.y) {
-                    if (moveB.upgrade != undefined){
+                    if (moveB.upgrade != undefined) {
                         pieceB.name = moveB.upgrade;
                     }
                     pieceB.pos = {
@@ -261,7 +259,7 @@ module.exports = class Board {
                         y: moveB.y
                     };
                     pieceB.hasMoved = true;
-                    if (moveW.upgrade != undefined){
+                    if (moveW.upgrade != undefined) {
                         pieceW.name = moveW.upgrade;
                     }
                     pieceW.pos = {
@@ -275,7 +273,7 @@ module.exports = class Board {
                     return;
                 }
                 else if (moveW.x == moveB.start.x && moveW.y == moveB.start.y) {
-                    if (moveB.upgrade != undefined){
+                    if (moveB.upgrade != undefined) {
                         pieceB.name = moveB.upgrade;
                     }
                     pieceB.pos = {
@@ -283,7 +281,7 @@ module.exports = class Board {
                         y: moveB.y
                     };
                     pieceB.hasMoved = true;
-                    if (moveW.upgrade != undefined){
+                    if (moveW.upgrade != undefined) {
                         pieceW.name = moveW.upgrade;
                     }
                     pieceW.pos = {
@@ -299,7 +297,7 @@ module.exports = class Board {
                 if (bAttack !== undefined) {
                     bAttack.kill();
                 }
-                if (moveB.upgrade != undefined){
+                if (moveB.upgrade != undefined) {
                     pieceB.name = moveB.upgrade;
                 }
                 pieceB.pos = {
@@ -310,7 +308,7 @@ module.exports = class Board {
                 if (wAttack !== undefined) {
                     wAttack.kill();
                 }
-                if (moveW.upgrade != undefined){
+                if (moveW.upgrade != undefined) {
                     pieceW.name = moveW.upgrade;
                 }
                 pieceW.pos = {
@@ -342,26 +340,31 @@ module.exports = class Board {
         for (var x = 0; x < 8; x++) {
             for (var y = 0; y < 8; y++) {
                 this.ctx.fillStyle = ((x + y) % 2 == 1) ? "#eeeed2" : "#769656";
-                this.ctx.fillRect(x * this.tile, y * this.tile, this.tile, this.tile);
+                var ty = this.playerColor == "black" ? 7 - y : y;
+                this.ctx.fillRect(x * this.tile, ty * this.tile, this.tile, this.tile);
             }
         }
         this.ctx.lineWidth = 4;
         if (this.dragging != undefined) {
             this.ctx.globalAlpha = .8;
             this.ctx.strokeStyle = "yellow";
-            this.ctx.strokeRect(this.dragging.pos.x * this.tile + 6, this.dragging.pos.y * this.tile + 6, this.tile - 12, this.tile - 12);
+            var ty = this.playerColor == "black" ? 7 - this.dragging.pos.y : this.dragging.pos.y;
+            this.ctx.strokeRect(this.dragging.pos.x * this.tile + 6, ty * this.tile + 6, this.tile - 12, this.tile - 12);
             this.ctx.globalAlpha = 0.35;
             for (var move of this.legalMoves) {
                 this.ctx.fillStyle = move.premove ? "red" : "green";
-                this.ctx.fillRect(move.x * this.tile, move.y * this.tile, this.tile, this.tile);
+                var tmy = this.playerColor == "black" ? 7 - move.y : move.y;
+                this.ctx.fillRect(move.x * this.tile, tmy * this.tile, this.tile, this.tile);
             }
         }
         for (var move of this.moves) {
             this.ctx.strokeStyle = move.premove ? "red" : "green";
             this.ctx.globalAlpha = .75;
-            this.ctx.strokeRect(move.x * this.tile + 6, move.y * this.tile + 6, this.tile - 12, this.tile - 12);
+            var tmy = this.playerColor == "black" ? 7 - move.y : move.y;
+            this.ctx.strokeRect(move.x * this.tile + 6, tmy * this.tile + 6, this.tile - 12, this.tile - 12);
             this.ctx.globalAlpha = .4;
-            this.ctx.strokeRect(move.start.x * this.tile + 6, move.start.y * this.tile + 6, this.tile - 12, this.tile - 12);
+            var tmsy = this.playerColor == "black" ? 7 - move.start.y : move.start.y;
+            this.ctx.strokeRect(move.start.x * this.tile + 6, tmsy * this.tile + 6, this.tile - 12, this.tile - 12);
         }
         this.ctx.globalAlpha = 1;
 
@@ -382,7 +385,7 @@ module.exports = class Board {
                 } else {
                     bHeight += 40;
                 }
-                piece.drawRaw(dctx, 0, height);
+                piece.drawRaw(dctx, 25, height);
             }
         }
     }
@@ -390,7 +393,7 @@ module.exports = class Board {
     drawPieces() {
         for (var piece of this.pieces) {
             if (!piece.dead) {
-                piece.draw(this.ctx, this.tile);
+                piece.draw(this.ctx, this.tile, this.playerColor == "white");
             }
         }
     }
@@ -399,6 +402,7 @@ module.exports = class Board {
         this.drawChessBoard();
         if (e !== undefined) {
             var hover = this.getTile(e);
+
             this.ctx.strokeStyle = "#627b48";
             this.ctx.lineWidth = 4;
             this.ctx.strokeRect(hover.x * this.tile + 2, hover.y * this.tile + 2, this.tile - 4, this.tile - 4);
@@ -413,7 +417,7 @@ module.exports = class Board {
     onMouseDown(e) {
         if (this.locked || this.modalOpen)
             return;
-        this.dragging = this.getPiece(this.getTile(e));
+        this.dragging = this.getPiece(this.getTile(e, this.playerColor == "black"));
         if (this.dragging != undefined && this.dragging.color == this.playerColor) {
             this.moves = this.moves.filter(m => m !== this.dragging.move);
             this.dragging.move = undefined;
@@ -432,9 +436,10 @@ module.exports = class Board {
 
     onMouseUp(e) {
         if (this.dragging != undefined) {
-            var hover = this.getTile(e);
+            var hover = this.getTile(e, true);
             for (var move of this.legalMoves) {
-                if (move.x == hover.x && move.y == hover.y) {
+                var ty = this.playerColor == "white" ? 7 - move.y : move.y;
+                if (move.x == hover.x && ty == hover.y) {
                     move.start = this.dragging.pos;
                     move.color = this.dragging.color;
                     this.moves = this.moves.filter(m => !(m.start.x == move.x && m.start.y == move.y));
@@ -443,7 +448,7 @@ module.exports = class Board {
                         if (piece.move !== undefined && !this.moves.includes(piece.move))
                             piece.move = undefined;
                     }
-                    if ((move.y == 0 || move.y == 7) && this.dragging.name == "pawn"){
+                    if ((move.y == 0 || move.y == 7) && this.dragging.name == "pawn") {
                         document.getElementsByClassName('modal')[0].classList.add('open');
                         //move.upgrade = confirm("yo you want a queen or nah m9") ? "queen" : "knight";
                         this.modalOpen = true;
@@ -458,21 +463,23 @@ module.exports = class Board {
         this.draw(e);
     }
 
-    getPiece(pos) {
+    getPiece(pos, flip = false) {
         for (var piece of this.pieces) {
-            if (piece.pos.x == pos.x && piece.pos.y == pos.y) {
+            var ty = flip ? 7 - pos.y : pos.y;
+            if (piece.pos.x == pos.x && piece.pos.y == ty) {
                 return piece;
             }
         }
         return undefined;
     }
 
-    getTile(e) {
+    getTile(e, flip = false) {
         var rawPos = this.getMousePos(e);
-        return {
-            x: Math.floor(rawPos.x / this.tile),
-            y: Math.floor(rawPos.y / this.tile)
-        };
+        if (this)
+            return {
+                x: Math.floor(rawPos.x / this.tile),
+                y: flip ? 7 - Math.floor(rawPos.y / this.tile) : Math.floor(rawPos.y / this.tile)
+            };
     }
 
     getMousePos(e) {

@@ -86,7 +86,7 @@ button:hover {
     padding: 1rem;
     pointer-events: all;
 }
-.modal-title{
+#upgrademodal>.modal-title{
     margin-bottom: 1rem;
 }
 

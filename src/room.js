@@ -35,6 +35,8 @@ module.exports = class Rooms {
             userid: uuid(),
         });
         socket.emit('connected', { id: id, color: "black" });
+        room.participants[0].socket.emit('start');
+        room.participants[1].socket.emit('start');
         socket.game = room;
     }
 
