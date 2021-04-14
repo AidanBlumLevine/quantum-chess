@@ -444,6 +444,16 @@ module.exports = class Board {
                     move.color = this.dragging.color;
                     this.moves = this.moves.filter(m => !(m.start.x == move.x && m.start.y == move.y));
                     this.moves = this.moves.filter(m => !(m.x == move.start.x && m.y == move.start.y));
+
+                    //clear other moves if this is attacking
+                    if (this.contains(this.playerColor == "white" ? "black" : "white", { x: move.x, y: move.y })){
+                        this.moves = this.moves.filter(m => !m.premove);
+                    }
+                    //clear attacking moves if this is a premove
+                    if(move.premove){
+                        this.moves = this.moves.filter(m => !this.contains(this.playerColor == "white" ? "black" : "white", { x: m.x, y: m.y }));
+                    }
+
                     for (var piece of this.pieces) {
                         if (piece.move !== undefined && !this.moves.includes(piece.move))
                             piece.move = undefined;
