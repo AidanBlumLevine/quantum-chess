@@ -334,6 +334,19 @@ module.exports = class Board {
         }
         this.moves = [];
         this.locked = false;
+
+        //check for kings
+        var thisking = this.pieces.find(p => p.name == "king" && p.color == this.playerColor);
+        var otherking = this.pieces.find(p => p.name == "king" && p.color != this.playerColor);
+        if (thisking.dead) {
+            if (otherking.dead) {
+                alert("Tie!");
+            } else {
+                alert("You lose!");
+            }
+        } else if (otherking.dead) {
+            alert("You win!");
+        }
     }
 
     drawChessBoard() {
@@ -446,11 +459,11 @@ module.exports = class Board {
                     this.moves = this.moves.filter(m => !(m.x == move.start.x && m.y == move.start.y));
 
                     //clear other moves if this is attacking
-                    if (this.contains(this.playerColor == "white" ? "black" : "white", { x: move.x, y: move.y })){
+                    if (this.contains(this.playerColor == "white" ? "black" : "white", { x: move.x, y: move.y })) {
                         this.moves = this.moves.filter(m => !m.premove);
                     }
                     //clear attacking moves if this is a premove
-                    if(move.premove){
+                    if (move.premove) {
                         this.moves = this.moves.filter(m => !this.contains(this.playerColor == "white" ? "black" : "white", { x: m.x, y: m.y }));
                     }
 

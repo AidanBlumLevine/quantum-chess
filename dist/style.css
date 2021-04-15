@@ -25,7 +25,7 @@ input {
     width: 100px;
 }
 
-#lockin{
+#lockin {
     margin-top: 1rem;
     width: 25rem;
     height: 3rem;
@@ -43,7 +43,7 @@ button {
     cursor: pointer;
 }
 
-#board{
+#board {
     margin-left: 1.5rem;
     margin-right: 1.5rem;
 }
@@ -73,11 +73,11 @@ button:hover {
     pointer-events: none;
 }
 
-.modal{
+.modal {
     display: none;
 }
 
-.modal.open{
+.modal.open {
     z-index: 10000;
     display: flex;
     flex-direction: column;
@@ -86,10 +86,28 @@ button:hover {
     padding: 1rem;
     pointer-events: all;
 }
-#upgrademodal>.modal-title{
+
+#upgrademodal>.modal-title {
     margin-bottom: 1rem;
 }
 
-#knight{
+#knight {
     margin-left: auto;
+}
+
+.settings {
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 1;
+    padding: .5rem;
+    height: 100%;
+}
+
+.tutorial {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    border-right: 1px solid #abb8bf;
+    padding: .5rem;
+    height: 100%;
 }

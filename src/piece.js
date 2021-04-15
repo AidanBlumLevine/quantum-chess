@@ -19,10 +19,11 @@ module.exports = class Piece {
     }
 
     draw(ctx, tile, flip = false) {
+        var edge = 7;
         if(flip){
-            ctx.drawImage(this.img, this.pos.x * tile, this.pos.y * tile, tile, tile);
+            ctx.drawImage(this.img, this.pos.x * tile + edge, this.pos.y * tile + edge, tile - 2 * edge, tile - 2 * edge);
         } else {
-            ctx.drawImage(this.img, this.pos.x * tile, (7-this.pos.y) * tile, tile, tile);
+            ctx.drawImage(this.img, this.pos.x * tile + edge, (7-this.pos.y) * tile + edge, tile - 2 * edge, tile - 2 * edge);
         }
     }
 
