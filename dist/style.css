@@ -101,6 +101,8 @@ button:hover {
     flex-shrink: 1;
     padding: .5rem;
     height: 100%;
+    margin-top: -1rem;
+    padding-top: 1rem;
 }
 
 .tutorial {
@@ -110,4 +112,12 @@ button:hover {
     border-right: 1px solid #abb8bf;
     padding: .5rem;
     height: 100%;
+    margin-top: -1rem;
+    padding-top: 1rem;
+}
+
+.title{
+    font-size: 16;
+    font-weight: 600;
+    margin-bottom: 1rem;
 }

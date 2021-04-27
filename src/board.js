@@ -357,25 +357,25 @@ module.exports = class Board {
                 this.ctx.fillRect(x * this.tile, ty * this.tile, this.tile, this.tile);
             }
         }
-        this.ctx.lineWidth = 4;
+        this.ctx.lineWidth = 4.5;
         if (this.dragging != undefined) {
             this.ctx.globalAlpha = .8;
-            this.ctx.strokeStyle = "yellow";
+            this.ctx.strokeStyle = "#FFA737"; // yellow
             var ty = this.playerColor == "black" ? 7 - this.dragging.pos.y : this.dragging.pos.y;
             this.ctx.strokeRect(this.dragging.pos.x * this.tile + 6, ty * this.tile + 6, this.tile - 12, this.tile - 12);
-            this.ctx.globalAlpha = 0.35;
+            this.ctx.globalAlpha = 0.6;
             for (var move of this.legalMoves) {
-                this.ctx.fillStyle = move.premove ? "red" : "green";
+                this.ctx.fillStyle = move.premove ? "#D33F49" : "#4D7EA8"; // red : green
                 var tmy = this.playerColor == "black" ? 7 - move.y : move.y;
                 this.ctx.fillRect(move.x * this.tile, tmy * this.tile, this.tile, this.tile);
             }
         }
         for (var move of this.moves) {
-            this.ctx.strokeStyle = move.premove ? "red" : "green";
+            this.ctx.strokeStyle = move.premove ? "#D33F49" : "#4D7EA8";   // red : green
             this.ctx.globalAlpha = .75;
             var tmy = this.playerColor == "black" ? 7 - move.y : move.y;
             this.ctx.strokeRect(move.x * this.tile + 6, tmy * this.tile + 6, this.tile - 12, this.tile - 12);
-            this.ctx.globalAlpha = .4;
+            this.ctx.globalAlpha = .6;
             var tmsy = this.playerColor == "black" ? 7 - move.start.y : move.start.y;
             this.ctx.strokeRect(move.start.x * this.tile + 6, tmsy * this.tile + 6, this.tile - 12, this.tile - 12);
         }
@@ -417,7 +417,7 @@ module.exports = class Board {
             var hover = this.getTile(e);
 
             this.ctx.strokeStyle = "#627b48";
-            this.ctx.lineWidth = 4;
+            this.ctx.lineWidth = 4.5;
             this.ctx.strokeRect(hover.x * this.tile + 2, hover.y * this.tile + 2, this.tile - 4, this.tile - 4);
         }
         this.drawPieces();

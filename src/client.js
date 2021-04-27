@@ -43,7 +43,7 @@ $(function () {
         $('#input').hide();
         $('#lockin').show();
         $('#startmodal').addClass("open");
-        $('#pregame').hide();
+        $('.pregame').hide();
     });
     socket.on('start', () => {
         $('#startmodal').removeClass("open");
